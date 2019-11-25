@@ -8,7 +8,7 @@ app = Flask(__name__)
 @app.route('/home')
 def index():
 	try:
-		return render_template('home.html')
+		return render_template('home.html', message = 'Digital Newspaper')
 	except Exception as e:
 		raise e
 
