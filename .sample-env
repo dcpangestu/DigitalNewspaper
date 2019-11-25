@@ -1,2 +1,0 @@
-WEATHER_TOKEN = <your_weathermap_token>
-WEATHER_BASEURL = https://openweathermap.org/data/2.5/weather
