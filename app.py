@@ -8,6 +8,11 @@ app = Flask(__name__)
 def home():
     return render_template("home.html")
 
+@app.route('/facts/<region>')
+def facts(region):
+	facts = requests.get('http://localhost:5000/region/' + region)
+	return facts.text
+
 @app.route('/weather/<region>')
 def weather(region):
 	weather = requests.get('https://openweathermap.org/data/2.5/weather?q=' + region + '&appid=' + os.getenv("WEATHER_TOKEN"))
