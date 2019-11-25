@@ -1,5 +1,6 @@
 from flask import Flask, render_template
 import requests
+import config
 
 app = Flask(__name__)
 
@@ -15,13 +16,13 @@ def facts(region):
 
 @app.route('/weather/<region>')
 def weather(region):
-	weather = requests.get('https://openweathermap.org/data/2.5/weather?q=' + region + '&appid=' + os.getenv("WEATHER_TOKEN"))
+	weather = requests.get('https://openweathermap.org/data/2.5/weather?q=' + region + '&appid=' + config.WEATHER_TOKEN)
     return weather.text
 
 @app.route('/news/<region>')
 def news(region):
-	news = requests.get('https://newsapi.org/v2/everything?q=' + region + '&apiKey=' + os.getenv("NEWS_TOKEN"))
+	news = requests.get('https://newsapi.org/v2/everything?q=' + region + '&apiKey=' + config.NEWS_TOKEN)
     return news.text
 
 if __name__ == '__main__':
-    app.run(port = os.getenv("PORT"), debug = True)
+    app.run(port = config.PORT, debug = True)
