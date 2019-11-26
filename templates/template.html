@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    {% if title %}
+      <title>{{ title }} - Digital Newspaper</title>
+      {% else %}
+      <title>Welcome to Digital Newspaper</title>
+    {% endif %}
+  </head>
+  <body>
+    <div>Digital Newspaper: <a href="/home">Home</a></div>
+    <hr>
+    {% block content %}{% endblock %}
+  </body>
+</html>
