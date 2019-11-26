@@ -23,8 +23,8 @@ def facts(region):
 @app.route('/weather/<region>')
 def weather(region):
 	try:
-		weather = requests.get('https://openweathermap.org/data/2.5/weather?q=' + region + '&appid=' + config.WEATHER_TOKEN)
-		return weather.text
+		weather = requests.get('https://api.openweathermap.org/data/2.5/weather?q=' + region + '&mode=html&appid=' + config.WEATHER_TOKEN)
+		return render_template('weather.html', data = weather)
 	except Exception as e:
 		raise e
 
