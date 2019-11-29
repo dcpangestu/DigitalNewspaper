@@ -1,6 +1,7 @@
 from flask import Flask, render_template
 import requests
 import config
+import json
 
 app = Flask(__name__)
 
@@ -13,7 +14,11 @@ user = {
 @app.route('/home')
 def home():
 	try:
-		return render_template('home.html', title = 'Home', user = user)
+		region = "Jakarta"
+		weather = requests.get('https://api.openweathermap.org/data/2.5/weather?q=' + region + '&appid=' + config.WEATHER_TOKEN)
+		news = requests.get('https://newsapi.org/v2/top-headlines?country=id&apiKey=' + config.NEWS_TOKEN)
+		facts = requests.get('http://localhost:5000/region/' + region)
+		return render_template('home.html', title = 'Home', weather = weather, news = news.articles, facts = facts, user = user)
 	except Exception as e:
 		raise e
 
@@ -24,6 +29,39 @@ def kota(region):
 		news = requests.get('https://newsapi.org/v2/everything?q=' + region + '&apiKey=' + config.NEWS_TOKEN)
 		facts = requests.get('http://localhost:5000/region/' + region)
 		return render_template('home.html', title = 'Home', weather = weather, news = news, facts = facts, user = user)
+	except Exception as e:
+		raise e
+
+@app.route('/facts/<region>')
+def facts(region):
+	try:
+		facts = requests.get('http://localhost:5000/region/' + region)
+		facts = json.loads(facts.text)
+		facts = facts['articles']
+		return fa[0]
+		""" return render_template('home.html', title = 'Facts: ' + region , facts = facts, user = user) """
+	except Exception as e:
+		raise e
+
+@app.route('/weather/<region>')
+def weather(region):
+	try:
+		weather = requests.get('https://api.openweathermap.org/data/2.5/weather?q=' + region + '&&appid=' + config.WEATHER_TOKEN)
+		weather = json.loads(weather.text)
+		weather = weather['weather'][0]
+		return weather
+		""" return render_template('home.html', title = 'Weather: ' + region, weather = weather, news = news, facts = facts, user = user) """
+	except Exception as e:
+		raise e
+
+@app.route('/news/<region>')
+def news(region):
+	try:
+		news = requests.get('https://newsapi.org/v2/everything?q=' + region + '&apiKey=' + config.NEWS_TOKEN)
+		news = json.loads(news.text)
+		news = news['articles']
+		return news[0]
+		""" return render_template('home.html', title = 'News: ' + region , news = news, user = user) """
 	except Exception as e:
 		raise e
 
