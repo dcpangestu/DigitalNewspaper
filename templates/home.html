@@ -3,6 +3,32 @@
 {% extends "template.html" %}
 
 {% block content %}
+
   <h1>Hi, {{user.name}}</h1>
   <h1>Welcome to Digital Newspaper!</h1>
+
+  <br>
+
+  {% if weather %}
+    <p>{{weather.text}}</p>
+  {% else %}
+    <p>kagak dapet cuaca</p>
+  {% endif %}
+
+  </br>
+
+  {% if news %}
+    <p>{{news.text}}</p>
+  {% else %}
+    <p>kagak dapet berita</p>
+  {% endif %}
+
+  <br>
+
+  {% if facts %}
+    <p>{{facts.text}}</p>
+  {% else %}
+    <p>kagak dapet fakta unik</p>
+  {% endif %}
+
 {% endblock %}
