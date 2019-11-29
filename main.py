@@ -17,7 +17,7 @@ def home():
 		region = "Jakarta"
 		weather = requests.get('https://api.openweathermap.org/data/2.5/weather?q=' + region + '&appid=' + config.WEATHER_TOKEN)
 		news = requests.get('https://newsapi.org/v2/top-headlines?country=id&apiKey=' + config.NEWS_TOKEN)
-		facts = requests.get('https://wiki-region-api.herokuapp.com/wiki/' + region)
+		facts = requests.get('https://wiki-region-api.herokuapp.com/wiki?name=' + region)
 		return render_template('home.html', title = 'Home', weather = weather, news = news.articles, facts = facts, user = user)
 	except Exception as e:
 		raise e
@@ -27,7 +27,7 @@ def kota(region):
 	try:
 		weather = requests.get('https://api.openweathermap.org/data/2.5/weather?q=' + region + '&appid=' + config.WEATHER_TOKEN)
 		news = requests.get('https://newsapi.org/v2/everything?q=' + region + '&apiKey=' + config.NEWS_TOKEN)
-		facts = requests.get('https://wiki-region-api.herokuapp.com/wiki/' + region)
+		facts = requests.get('https://wiki-region-api.herokuapp.com/wiki?name=' + region)
 		return render_template('home.html', title = 'Home', weather = weather, news = news, facts = facts, user = user)
 	except Exception as e:
 		raise e
@@ -35,7 +35,7 @@ def kota(region):
 @app.route('/facts/<region>')
 def facts(region):
 	try:
-		facts = requests.get('https://wiki-region-api.herokuapp.com/wiki/' + region)
+		facts = requests.get('https://wiki-region-api.herokuapp.com/wiki?name=' + region)
 		facts = json.loads(facts.text)
 		facts = facts['articles']
 		return fa[0]
