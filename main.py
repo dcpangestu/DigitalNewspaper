@@ -13,14 +13,14 @@ user = {
 @app.route('/home')
 def index():
 	try:
-		return render_template('home.html', title = 'Home', user = user)
+		return render_template('index.html', title = 'Digital News', user = user)
 	except Exception as e:
 		raise e
 
 @app.route('/facts/<region>')
 def facts(region):
 	try:
-		facts = requests.get('http://localhost:5000/region/' + region)
+		facts = requests.get('https://wiki-region-api.herokuapp.com/wiki/' + region)
 		return render_template('facts.html', title = 'Facts: ' + region , region = region, data = facts.text, user = user)
 	except Exception as e:
 		raise e
