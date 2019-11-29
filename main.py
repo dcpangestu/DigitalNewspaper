@@ -4,11 +4,16 @@ import config
 
 app = Flask(__name__)
 
+user = {
+	'name': 'Maulana',
+	'gatau': 'idk dude'
+}
+
 @app.route('/')
 @app.route('/home')
 def index():
 	try:
-		return render_template('home.html', message = 'Digital Newspaper')
+		return render_template('home.html', title = 'Home', user = user)
 	except Exception as e:
 		raise e
 
@@ -16,15 +21,15 @@ def index():
 def facts(region):
 	try:
 		facts = requests.get('http://localhost:5000/region/' + region)
-		return facts.text
+		return render_template('facts.html', title = 'Facts: ' + region , region = region, data = facts.text, user = user)
 	except Exception as e:
 		raise e
 
 @app.route('/weather/<region>')
 def weather(region):
 	try:
-		weather = requests.get('https://openweathermap.org/data/2.5/weather?q=' + region + '&appid=' + config.WEATHER_TOKEN)
-		return weather.text
+		weather = requests.get('https://api.openweathermap.org/data/2.5/weather?q=' + region + '&appid=' + config.WEATHER_TOKEN)
+		return render_template('weather.html', title = 'Weather: ' + region , region = region, data = weather.text, user = user)
 	except Exception as e:
 		raise e
 
@@ -32,7 +37,7 @@ def weather(region):
 def news(region):
 	try:
 		news = requests.get('https://newsapi.org/v2/everything?q=' + region + '&apiKey=' + config.NEWS_TOKEN)
-		return news.text
+		return render_template('news.html', title = 'News: ' + region , region = region, data = news.text, user = user)
 	except Exception as e:
 		raise e
 
