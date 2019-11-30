@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+from datetime import datetime
 import requests
 import config
 import json
@@ -9,12 +10,15 @@ app = Flask(__name__)
 @app.route('/')
 def index():
 	try:
-		region = "Jakarta"
-		weather = json.loads(requests.get('https://api.openweathermap.org/data/2.5/weather?q=' + region + '&units=celcius&appid=' + config.WEATHER_TOKEN).text)
-		news = requests.get('https://newsapi.org/v2/top-headlines?country=id&apiKey=' + config.NEWS_TOKEN)
-		facts = requests.get('https://wiki-region-api.herokuapp.com/wiki?name=' + region)
-		print(weather)
-		return render_template('index.html', title = 'Home | Digital Newspaper', weather = weather, news = news, facts = facts)
+		default_region = "Jakarta"
+		time = datetime.now().strftime('%d %B %Y, %H:%M:%S')
+		req_weather = requests.get('https://api.openweathermap.org/data/2.5/weather?q=' + default_region + '&units=metric&appid=' + config.WEATHER_TOKEN)
+		req_news = requests.get('https://newsapi.org/v2/top-headlines?country=id&apiKey=' + config.NEWS_TOKEN)
+		req_facts = requests.get('https://wiki-region-api.herokuapp.com/wiki?name=' + default_region)
+		weather = json.loads(req_weather.text)
+		news = json.loads(req_news.text)
+		facts = json.loads(req_facts.text)
+		return render_template('index.html', title = 'Home | Digital Newspaper', weather = weather, news = news, facts = facts, time = time)
 	except Exception as e:
 		raise e
 
@@ -33,7 +37,7 @@ def facts(region):
 @app.route('/weather/<region>')
 def weather(region):
 	try:
-		weather = requests.get('https://api.openweathermap.org/data/2.5/weather?q=' + region + '&&appid=' + config.WEATHER_TOKEN)
+		weather = requests.get('https://api.openweathermap.org/data/2.5/weather?q=' + region + '&units=metric&appid=' + config.WEATHER_TOKEN)
 		weather = json.loads(weather.text)
 		#weather = weather['weather']
 		return weather

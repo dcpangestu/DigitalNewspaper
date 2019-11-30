@@ -43,31 +43,32 @@
           <div class="row">
             <div class="container">
               <div class="card">
-                <div class="card-image">
-                  <figure class="image is-4by3">
-                    <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-                  </figure>
+                <div class="card-header">
+                  <p class="card-header-title">
+                    Cuaca di {{ weather['name'] }} hari ini
+                  </p>
                 </div>
                 <div class="card-content">
-                  {% for weather in weather['weather'] %}
+                  {% for data in weather['weather'] %}
                   <div class="media">
                     <div class="media-left">
                       <figure class="image is-48x48">
-                        <img src="http://openweathermap.org/img/w/{{ weather.icon }}.png" alt="Placeholder image">
+                        <img src="http://openweathermap.org/img/w/{{ data.icon }}.png" alt="Placeholder image">
                       </figure>
                     </div>
                     <div class="media-content">
-                      <p class="title is-4">{{ weather.main }}</p>
-                      <p class="subtitle is-6">{{ weather.description }}</p>
+                      <p class="title is-4">{{ data.main }}</p>
+                      <p class="subtitle is-6">{{ data.description }}</p>
                     </div>
                   </div>
+                  <hr>
                   {% endfor %}
                   <div class="content">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Phasellus nec iaculis mauris. <a>@bulmaio</a>.
-                    <a href="#">#css</a> <a href="#">#responsive</a>
-                    <br>
-                    <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                    <p class="subtitle is-4">Awan: {{ weather['clouds']['all'] }}%</p>
+                    <p class="subtitle is-5">Kelembaban: {{ weather['main']['humidity'] }}%</p>
+                    <p class="subtitle is-5">Angin: {{ weather['wind']['speed'] }} m/s</p>
+                    <p class="subtitle is-5">Tekanan: {{ weather['main']['pressure'] }}hpa</p>
+                    <time datetime="{{ time }}">{{ time }}</time>
                   </div>
                 </div>
               </div>
