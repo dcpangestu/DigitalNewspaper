@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from datetime import datetime
 import requests
 import config
@@ -26,6 +26,21 @@ def index():
 		facts = json.loads(req_facts.text)
 		time = datetime.now().strftime('%d %B %Y, %H:%M:%S')
 		return render_template('index.html', title = 'Home | Digital Newspaper', weather = weather, news = news, facts = facts, time = time, region = ['Indonesia', 'Jakarta'])
+	except Exception as e:
+		raise e
+
+@app.route('/search')
+def search():
+	try:
+		keyword = request.args.get('keyword').capitalize()
+		req_weather = requests.get('https://api.openweathermap.org/data/2.5/weather?q=' + keyword + '&units=metric&appid=' + config.WEATHER_TOKEN)
+		req_news = requests.get('https://newsapi.org/v2/everything?q=' + keyword + '&apiKey=' + config.NEWS_TOKEN)
+		req_facts = requests.get('https://wiki-region-api.herokuapp.com/wiki?name=' + keyword)
+		weather = json.loads(req_weather.text)
+		news = json.loads(req_news.text)
+		facts = json.loads(req_facts.text)
+		time = datetime.now().strftime('%d %B %Y, %H:%M:%S')
+		return render_template('index.html', title = 'Home | Digital Newspaper', weather = weather, news = news, facts = facts, time = time, region = [keyword, keyword])
 	except Exception as e:
 		raise e
 
@@ -62,4 +77,5 @@ def news(region):
 		raise e
 
 if __name__ == '__main__':
-	app.run(port = config.PORT, debug = True)
+	app.run(threaded = True, port = config.PORT)
+	#app.run(port = config.PORT, debug = True)
