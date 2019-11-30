@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from datetime import datetime
+from datetime import datetime, timedelta
 import requests
 import config
 import json
@@ -24,7 +24,7 @@ def index():
 		weather = json.loads(req_weather.text)
 		news = json.loads(req_news.text)
 		facts = json.loads(req_facts.text)
-		time = datetime.now().strftime('%d %B %Y, %H:%M:%S')
+		time = (datetime.now() + timedelta(hours = 7)).strftime('%d %B %Y, %H:%M:%S')
 		return render_template('index.html', title = 'Home | Digital Newspaper', weather = weather, news = news, facts = facts, time = time, region = ['Indonesia', 'Jakarta'])
 	except Exception as e:
 		raise e
@@ -39,8 +39,8 @@ def search():
 		weather = json.loads(req_weather.text)
 		news = json.loads(req_news.text)
 		facts = json.loads(req_facts.text)
-		time = datetime.now().strftime('%d %B %Y, %H:%M:%S')
-		return render_template('index.html', title = 'Home | Digital Newspaper', weather = weather, news = news, facts = facts, time = time, region = [keyword, keyword], keyword = keyword)
+		time = (datetime.now() + timedelta(hours = 7)).strftime('%d %B %Y, %H:%M:%S')
+		return render_template('index.html', title = keyword + ' | Digital Newspaper', weather = weather, news = news, facts = facts, time = time, region = [keyword, keyword], keyword = keyword)
 	except Exception as e:
 		raise e
 
