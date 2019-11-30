@@ -1,9 +1,8 @@
 # Environments
 venv/
-config.py
 __pycache__
 .vscode
-config.py
+#config.py
 
 # Flask stuff:
 instance/

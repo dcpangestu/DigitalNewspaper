@@ -8,26 +8,31 @@
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
   </head>
   <body>
-    <nav class="navbar" role="navigation" aria-label="main navigation">
+    <!-- <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <a class="navbar-item" href="https://bulma.io">
           Digital Newspaper
         </a>
       </div>
-    </nav>
+    </nav> -->
     <section class="section">
       <div class="container">
-        <h1 class="title has-text-centered">
-          Koran Digital
-        </h1>
+        <a href="/">
+          <h1 class="title has-text-centered">
+            Koran Digital
+          </h1>
+        </a>
         <p class="subtitle has-text-centered">
           Lihat <strong>cuaca</strong>, baca <strong>berita</strong>, dan ketahui <strong>fakta unik</strong> kotamu di sini!
         </p>
-        <form class="search" method="get" action="">
+        <!-- <p class="subtitle is-size-7 has-text-centered has-text-grey-light">
+          Made by Dwi C. P. and Alfian M. I.
+        </p> -->
+        <form class="search" method="get" action="{{ url_for('search') }}">
             <div>
                 <div class="field has-addons">
                     <div class="control is-expanded">
-                        <input class="input has-text-centered" type="search" placeholder="Masukkan nama kota..." name="keyword">
+                        <input class="input has-text-centered" type="search" placeholder="Masukkan nama kota..." name="keyword" value="{{ keyword }}">
                     </div>
                     <div class="control">
                       <button type="submit" class="button is-link">Cari</button>
@@ -43,29 +48,32 @@
           <div class="row">
             <div class="container">
               <div class="card">
-                <div class="card-image">
-                  <figure class="image is-4by3">
-                    <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-                  </figure>
+                <div class="card-header">
+                  <p class="card-header-title">
+                    Cuaca di {{ region[1] }} hari ini
+                  </p>
                 </div>
                 <div class="card-content">
+                  {% for data in weather['weather'] %}
                   <div class="media">
                     <div class="media-left">
                       <figure class="image is-48x48">
-                        <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                        <img src="http://openweathermap.org/img/w/{{ data.icon }}.png" alt="Placeholder image">
                       </figure>
                     </div>
                     <div class="media-content">
-                      <p class="title is-4">Weather</p>
-                      <p class="subtitle is-6">@johnsmith</p>
+                      <p class="title is-4">{{ data.main }}</p>
+                      <p class="subtitle is-6">{{ data.description }}</p>
                     </div>
                   </div>
+                  <hr>
+                  {% endfor %}
                   <div class="content">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    Phasellus nec iaculis mauris. <a>@bulmaio</a>.
-                    <a href="#">#css</a> <a href="#">#responsive</a>
-                    <br>
-                    <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                    <p class="subtitle is-4">Awan: {{ weather['clouds']['all'] }}%</p>
+                    <p class="subtitle is-5">Kelembaban: {{ weather['main']['humidity'] }}%</p>
+                    <p class="subtitle is-5">Angin: {{ weather['wind']['speed'] }} m/s</p>
+                    <p class="subtitle is-5">Tekanan: {{ weather['main']['pressure'] }}hpa</p>
+                    <time datetime="{{ time }}">{{ time }}</time>
                   </div>
                 </div>
               </div>
@@ -75,31 +83,33 @@
           <div class="row">
             <div class="container">
               <div class="card">
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th><abbr title="Position">Pos</abbr></th>
-                      <th>Team</th>
-                    </tr>
-                  </thead>
-                  <tfoot>
-                    <tr>
-                      <th><abbr title="Position">Pos</abbr></th>
-                      <th>Team</th>
-                    </tr>
-                  </tfoot>
-                  <tbody>
-                    <tr>
-                      <th>1</th>
-                      <td><a href="https://en.wikipedia.org/wiki/Leicester_City_F.C." title="Leicester City F.C.">Leicester City</a> <strong>(C)</strong>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>2</th>
-                      <td><a href="https://en.wikipedia.org/wiki/Arsenal_F.C." title="Arsenal F.C.">Arsenal</a></td>
-                    </tr>
-                  </tbody>
-                </table>
+                <div class="card-header">
+                  <p class="card-header-title">
+                    Fakta menarik di {{ region[0] }}
+                  </p>
+                </div>
+                <div class="card-content has-text-centered">
+                  <div class="table-container">
+                    <table class="table is-fullwidth is-hoverable">
+                      <thead>
+                        <tr>
+                          <!-- <th>No</th> -->
+                          <th>Kategori</th>
+                          <th>Konten</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for key in facts %}
+                        <tr>
+                          <!-- <td>{{ loop.index }}</td> -->
+                          <td>{{ key }}</td>
+                          <td>{{ facts[key] }}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -107,35 +117,49 @@
         <div class="column">
           <div class="container">
             <div class="card">
-              <div class="card-image">
-                <figure class="image is-4by3">
-                  <img src="https://bulma.io/images/placeholders/1280x960.png" alt="Placeholder image">
-                </figure>
+              <div class="card-header">
+                <p class="card-header-title">
+                  Berita utama di {{ region[0] }} saat ini
+                </p>
               </div>
+              {% for article in news['articles'] %}
               <div class="card-content">
                 <div class="media">
-                  <div class="media-left">
-                    <figure class="image is-48x48">
-                      <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                  <div class="media-left has-text-centered">
+                    <figure class="image is-128x128 is-square">
+                      <img src="{{ article['urlToImage'] }}" alt="Placeholder image">
                     </figure>
+                    <br>
+                    <a href="{{ article['url'] }}" target="_blank">
+                      <button class="button">Baca berita</button>
+                    </a>
                   </div>
                   <div class="media-content">
-                    <p class="title is-4">John Smith</p>
-                    <p class="subtitle is-6">@johnsmith</p>
+                    <p class="title is-4">{{ article['title'] }}</p>
+                    <p class="subtitle is-6">
+                      {{ article['author'] }} | {{ article['source']['name'] }}<br><br>
+                      {{ article['description'] }}<br>
+                    </p>
+                    <time datetime="{{ article['publishedAt'] }}">{{ article['publishedAt'][:10] }}</time>
                   </div>
-                </div>
-                <div class="content">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Phasellus nec iaculis mauris. <a>@bulmaio</a>.
-                  <a href="#">#css</a> <a href="#">#responsive</a>
-                  <br>
-                  <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                  
                 </div>
               </div>
+              <hr>
+              {% endfor %}
             </div>
           </div>
         </div>
       </div>
     </section>
+    <footer class="footer">
+      <div class="content has-text-centered">
+        <p>
+          <strong><a href="https://github.com/dcpangestu/DigitalNewspaper">Koran Digital</a></strong> oleh <a href="https://github.com/dcpangestu">Dwi Cahyo Pangestu</a> dan <a href="https://github.com/alfinm01">Alfian Maulana Ibrahim</a>.
+          <br>
+          Tugas mata kuliah STI ITB <strong>II3160 - Teknologi Sistem Terintegrasi</strong>, dosen pengampu Bapak I Gusti Bagus Baskara Nugraha.
+        </p>
+      </div>
+    </footer>
   </body>
 </html>
