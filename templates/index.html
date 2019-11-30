@@ -49,17 +49,19 @@
                   </figure>
                 </div>
                 <div class="card-content">
+                  {% for weather in weather['weather'] %}
                   <div class="media">
                     <div class="media-left">
                       <figure class="image is-48x48">
-                        <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                        <img src="http://openweathermap.org/img/w/{{ weather.icon }}.png" alt="Placeholder image">
                       </figure>
                     </div>
                     <div class="media-content">
-                      <p class="title is-4">Weather</p>
-                      <p class="subtitle is-6">@johnsmith</p>
+                      <p class="title is-4">{{ weather.main }}</p>
+                      <p class="subtitle is-6">{{ weather.description }}</p>
                     </div>
                   </div>
+                  {% endfor %}
                   <div class="content">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit.
                     Phasellus nec iaculis mauris. <a>@bulmaio</a>.
