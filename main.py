@@ -10,19 +10,18 @@ app = Flask(__name__)
 @app.route('/')
 def index():
 	try:
-		default_region = "Jakarta"
-		time = datetime.now().strftime('%d %B %Y, %H:%M:%S')
-		req_weather = requests.get('https://api.openweathermap.org/data/2.5/weather?q=' + default_region + '&units=metric&appid=' + config.WEATHER_TOKEN)
-		req_news = requests.get('https://newsapi.org/v2/top-headlines?country=id&apiKey=' + config.NEWS_TOKEN)
-		req_facts = requests.get('https://wiki-region-api.herokuapp.com/wiki?name=' + default_region)
+		req_weather = requests.get('https://api.openweathermap.org/data/2.5/weather?q=' + 'Jakarta' + '&units=metric&appid=' + config.WEATHER_TOKEN)
+		req_news = requests.get('https://newsapi.org/v2/top-headlines?country=' + 'id' + '&apiKey=' + config.NEWS_TOKEN)
+		req_facts = requests.get('https://wiki-region-api.herokuapp.com/wiki?name=' + 'indonesia')
 		weather = json.loads(req_weather.text)
 		news = json.loads(req_news.text)
 		facts = json.loads(req_facts.text)
-		return render_template('index.html', title = 'Home | Digital Newspaper', weather = weather, news = news, facts = facts, time = time)
+		time = datetime.now().strftime('%d %B %Y, %H:%M:%S')
+		return render_template('index.html', title = 'Home | Digital Newspaper', weather = weather, news = news, facts = facts, time = time, region = ['Indonesia', 'Jakarta'])
 	except Exception as e:
 		raise e
 
-# For sake of testing
+## For sake of testing ##
 
 @app.route('/facts/<region>')
 def facts(region):

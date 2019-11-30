@@ -8,13 +8,13 @@
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
   </head>
   <body>
-    <nav class="navbar" role="navigation" aria-label="main navigation">
+    <!-- <nav class="navbar" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <a class="navbar-item" href="https://bulma.io">
           Digital Newspaper
         </a>
       </div>
-    </nav>
+    </nav> -->
     <section class="section">
       <div class="container">
         <h1 class="title has-text-centered">
@@ -45,7 +45,7 @@
               <div class="card">
                 <div class="card-header">
                   <p class="card-header-title">
-                    Cuaca di {{ weather['name'] }} hari ini
+                    Cuaca di {{ region[1] }} hari ini
                   </p>
                 </div>
                 <div class="card-content">
@@ -78,31 +78,40 @@
           <div class="row">
             <div class="container">
               <div class="card">
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th><abbr title="Position">Pos</abbr></th>
-                      <th>Team</th>
-                    </tr>
-                  </thead>
-                  <tfoot>
-                    <tr>
-                      <th><abbr title="Position">Pos</abbr></th>
-                      <th>Team</th>
-                    </tr>
-                  </tfoot>
-                  <tbody>
-                    <tr>
-                      <th>1</th>
-                      <td><a href="https://en.wikipedia.org/wiki/Leicester_City_F.C." title="Leicester City F.C.">Leicester City</a> <strong>(C)</strong>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>2</th>
-                      <td><a href="https://en.wikipedia.org/wiki/Arsenal_F.C." title="Arsenal F.C.">Arsenal</a></td>
-                    </tr>
-                  </tbody>
-                </table>
+                <div class="card-header">
+                  <p class="card-header-title">
+                    Fakta menarik di {{ region[0] }}
+                  </p>
+                </div>
+                <div class="card-content has-text-centered">
+                  <div class="table-container">
+                    <table class="table is-fullwidth is-hoverable">
+                      <thead>
+                        <tr>
+                          <!-- <th>No</th> -->
+                          <th>Fakta</th>
+                          <th>Konten</th>
+                        </tr>
+                      </thead>
+                      <tfoot>
+                        <tr>
+                          <!-- <th>No</th> -->
+                          <th>Fakta</th>
+                          <th>Konten</th>
+                        </tr>
+                      </tfoot>
+                      <tbody>
+                        {% for key in facts %}
+                        <tr>
+                          <!-- <td>{{ loop.index }}</td> -->
+                          <td>{{ key }}</td>
+                          <td>{{ facts[key] }}</td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
