@@ -40,7 +40,7 @@ def search():
 		news = json.loads(req_news.text)
 		facts = json.loads(req_facts.text)
 		time = datetime.now().strftime('%d %B %Y, %H:%M:%S')
-		return render_template('index.html', title = 'Home | Digital Newspaper', weather = weather, news = news, facts = facts, time = time, region = [keyword, keyword])
+		return render_template('index.html', title = 'Home | Digital Newspaper', weather = weather, news = news, facts = facts, time = time, region = [keyword, keyword], keyword = keyword)
 	except Exception as e:
 		raise e
 
