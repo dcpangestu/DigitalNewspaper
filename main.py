@@ -3,7 +3,6 @@ from datetime import datetime, timedelta
 import requests
 import json
 import os
-#import config
 
 app = Flask(__name__)
 

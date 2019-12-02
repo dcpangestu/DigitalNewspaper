@@ -116,7 +116,7 @@
         </div>
         <div class="column">
           <div class="container">
-            <div class="card">
+            <div class="card is-hidden-mobile">
               <div class="card-header">
                 <p class="card-header-title">
                   Berita utama di {{ region[0] }} saat ini
@@ -125,13 +125,13 @@
               {% for article in news['articles'] %}
               <div class="card-content">
                 <div class="media">
-                  <div class="media-left has-text-centered">
+                  <div class="media-left has-text-centered is-fullwidth">
                     <figure class="image is-128x128 is-square">
                       <img src="{{ article['urlToImage'] }}" alt="Placeholder image">
                     </figure>
                     <br>
                     <a href="{{ article['url'] }}" target="_blank">
-                      <button class="button">Baca berita</button>
+                      <button class="button is-fullwidth">Baca berita</button>
                     </a>
                   </div>
                   <div class="media-content">
@@ -142,10 +142,39 @@
                     </p>
                     <time datetime="{{ article['publishedAt'] }}">{{ article['publishedAt'][:10] }}</time>
                   </div>
-                  
                 </div>
               </div>
               <hr>
+              {% endfor %}
+            </div>
+            <div class="card is-hidden-tablet">
+              <div class="card-header">
+                <p class="card-header-title">
+                  Berita utama di {{ region[0] }} saat ini
+                </p>
+              </div>
+              {% for article in news['articles'] %}
+              <div class="card-image">
+                <figure class="image is-4by3">
+                  <img src="{{ article['urlToImage'] }}" alt="Placeholder image">
+                </figure>
+              </div>
+              <div class="card-content">
+                <div class="content">
+                  <p class="title is-4">{{ article['title'] }}</p>
+                  <p class="subtitle is-6">
+                    {{ article['author'] }} | {{ article['source']['name'] }}<br><br>
+                    {{ article['description'] }}<br>
+                  </p>
+                  <time datetime="{{ article['publishedAt'] }}">{{ article['publishedAt'][:10] }}</time>
+                </div>
+              </div>
+              <div class="container" style="padding-left: 10px; padding-right: 10px">
+                <a href="{{ article['url'] }}" target="_blank">
+                  <button class="button is-fullwidth">Baca berita</button>
+                </a>
+              </div>
+              <br>
               {% endfor %}
             </div>
           </div>
