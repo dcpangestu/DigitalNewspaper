@@ -77,5 +77,5 @@ def news(region):
 		raise e
 
 if __name__ == '__main__':
-	app.run(threaded = True, port = config.PORT)
+	app.run(threaded = True, host='0.0.0.0', port = config.PORT)
 	#app.run(port = config.PORT, debug = True)
