@@ -12,3 +12,4 @@ ENV FLASK_APP main.py
 
 EXPOSE 5000
 CMD flask run
+
